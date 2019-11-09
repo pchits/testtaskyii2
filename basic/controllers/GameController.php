@@ -105,6 +105,22 @@ class GameController extends Controller
                 $game->save_from_session();
                         
             break;
+            case 'tomana':
+                //saving the last game
+                Yii::$app->session->setFlash('newgameSave');
+                //get the last game data from session
+                $game_data = Yii::$app->session->get('game');
+                $coef = $settings->mana_to_money_coef;
+
+                //convert money to mana
+                $game_data['type'] = 'mana';
+                $game_data['value'] = $game_data['value'] * $coef;
+                Yii::$app->session->set('game', $game_data);
+
+                $game = new Game();
+                //save the game with session data
+                $game->save_from_session();
+            break;
             case 'play':
                 //new game started
                 Yii::$app->session->setFlash('newgameDone');
@@ -151,9 +167,13 @@ class GameController extends Controller
     /**
      * Action for viewing results of saved games
      */
-    public function applyGamesResults() {
+    public function sendMoneyPrise($game)
+    {
+
 
 
     }
+
+    
 
 }

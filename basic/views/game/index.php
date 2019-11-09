@@ -25,6 +25,12 @@ $this->title = 'Game';
             <?= Html::submitButton('Save', ['class' => 'btn btn-success', 'name' => 'send', 'value' => 'save']) ?>
         </div>
 
+        <div class="form-group">
+            <?php if ($game['type'] == 'money'): ?>
+                <?= Html::submitButton('Take as mana', ['class' => 'btn btn-success', 'name' => 'send', 'value' => 'tomana']) ?>
+            <?php endif; ?>
+        </div>
+
     <?php elseif (Yii::$app->session->hasFlash('newgameSave')): ?>
 
         <div class="alert alert-success">
