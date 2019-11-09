@@ -1,8 +1,9 @@
 <?php
-
+// $path = ;
+// var_dump($path); die;
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
+    'dsn' => 'sqlite:' . realpath(__DIR__ . '/../../db/sqlite.db'),
     'username' => 'root',
     'password' => '',
     'charset' => 'utf8',

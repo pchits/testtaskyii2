@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Settings;
 
 class SiteController extends Controller
 {
@@ -20,13 +21,21 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout', 'settings', 'real-prise'],
                 'rules' => [
                     [
                         'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'actions' => ['settings', 'real-prise'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return Yii::$app->user->getId() == 100;
+                        }
+                    ]
                 ],
             ],
             'verbs' => [
@@ -124,5 +133,31 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    /**
+     * Work with settings data.
+     *
+     * @return Response|string
+     */
+    public function actionSettings()
+    {
+        // there could be only one
+        $model = Settings::findOne(1);
+        if (!$model) {
+            $model = new Settings();
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            //settings was changed
+            Yii::$app->session->setFlash('settingsSubmitted');
+
+            $model->save();
+
+            return $this->refresh();
+        } else {
+            //show current settings
+            return $this->render('settings', ['model' => $model]);
+        }
     }
 }

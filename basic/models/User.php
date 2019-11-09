@@ -9,6 +9,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public $password;
     public $authKey;
     public $accessToken;
+    public $mana;
 
     private static $users = [
         '100' => [
@@ -17,6 +18,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
             'password' => 'admin',
             'authKey' => 'test100key',
             'accessToken' => '100-token',
+            'mana' => 0
         ],
         '101' => [
             'id' => '101',
@@ -24,6 +26,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
             'password' => 'demo',
             'authKey' => 'test101key',
             'accessToken' => '101-token',
+            'mana' => 0
         ],
     ];
 
@@ -100,5 +103,22 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public function validatePassword($password)
     {
         return $this->password === $password;
+    }
+
+    /**
+     * Give mana to user
+     */
+    public function giveMana($val)
+    {
+
+        return $this->mana = $val;
+    }
+
+    /**
+     * Get mana for user
+     */
+    public function getMana()
+    {
+        return $this->mana;
     }
 }

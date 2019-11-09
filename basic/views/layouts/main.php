@@ -39,6 +39,14 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
+            !Yii::$app->user->isGuest ?
+                ['label' => 'Game', 'url' => ['/game/index']] : '',
+            Yii::$app->user->id == '100'?
+                ['label' => 'Results', 'url' => ['/game/results']] : '',
+            Yii::$app->user->id == '100'?
+                ['label' => 'Settings', 'url' => ['/site/settings']] : '',
+            Yii::$app->user->id == '100'?
+                ['label' => 'RealPrises', 'url' => ['/real-prise/index']] : '',
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
@@ -57,7 +65,7 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-
+    <div class="container your-mana-count">Your mana count: <?= Yii::$app->user->identity->mana; ?></div>
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
