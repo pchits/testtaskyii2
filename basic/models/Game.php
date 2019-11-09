@@ -38,17 +38,25 @@ class Game extends ActiveRecord
         $this->prise_type = $game_data['type'];
         $this->prise_value = $game_data['value'];
         $this->prise_id = $game_data['id'];
-        $this->status = 'NEW';
-        $this->save();
 
         //change the stock
         if ($this->prise_type == 'real') {
             $prise = RealPrise::findOne($this->prise_id);
             $prise->changeStock();
+            $this->status = 'NEW';
         }
         elseif (($this->prise_type == 'money')) {
             $settings = Settings::findOne(1);
             $settings->changeMoneyStock($this->prise_value);
+            $this->status = 'NEW';
         }
+        else {
+            $current_mana = Yii::$app->session->get('user.mana');
+            Yii::$app->session->set('user.mana', $current_mana + $this->prise_value);
+            
+            $this->status = 'DONE';
+        }
+
+        $this->save();
     }
 }

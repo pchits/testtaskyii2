@@ -65,8 +65,8 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-    <div class="container your-mana-count">Your mana count: <?= Yii::$app->user->identity->mana; ?></div>
     <div class="container">
+        <div class="your-mana-count">Your mana count: <?= Yii::$app->session->get('user.mana'); ?></div>
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>

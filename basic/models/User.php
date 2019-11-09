@@ -117,8 +117,8 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     /**
      * Get mana for user
      */
-    public function getMana()
-    {
-        return $this->mana;
-    }
+    // public function getMana()
+    // {
+    //     return $this->mana;
+    // }
 }
